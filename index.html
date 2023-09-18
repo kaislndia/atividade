@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consulta de CEP</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Consulta de CEP</h1>
+    <input type="text" id="cep" placeholder="Digite o CEP">
+    <button onclick="consultarCEP()">Consultar</button>
+
+    <div id="resultado">
+    </div>
+
+    <script>
+        function consultarCEP() {
+            var cep = document.getElementById("cep").value;
+            var url = "https://viacep.com.br/ws/" + cep + "/json/";
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var resultado = "<h2>Resultado da Consulta</h2>";
+                    resultado += "<p>CEP: " + data.cep + "</p>";
+                    resultado += "<p>Logradouro: " + data.logradouro + "</p>";
+                    resultado += "<p>Bairro: " + data.bairro + "</p>";
+                    resultado += "<p>Cidade: " + data.localidade + "</p>";
+                    resultado += "<p>Estado: " + data.uf + "</p>";
+                    resultado += "<p>IBGE: " + data.ibge + "</p>";
+                    resultado += "<p>GIA: " + data.gia + "</p>";
+                    resultado += "<p>DDD: " + data.ddd + "</p>";
+
+                    document.getElementById("resultado").innerHTML = resultado;
+                },
+                error: function() {
+                    alert("Não foi possível consultar o CEP.");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
